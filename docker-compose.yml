@@ -1,0 +1,25 @@
+version: '3.8'
+name: "energizeswap_project"
+services:
+  batteryswap-db:
+    image: mysql:5.7.22
+    container_name: database
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: energize_swap_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - batteryswap-db
