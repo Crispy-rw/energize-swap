@@ -7,13 +7,13 @@ from sqlalchemy import and_
 
 
 
-@app_views.route('movements/<identification>', methods=['POST'], strict_slashes=False)
-def update_movement(identification):
+@app_views.route('movements/<serial_number>', methods=['POST'], strict_slashes=False)
+def update_movement(serial_number):
     try:
         sent_data = request.get_json()
-        battery_check = Battery.query.filter(Battery.identication_mark ==identification).first()
+        battery_check = Battery.query.filter(Battery.serial_number ==serial_number).first()
         if battery_check is None:
-            return make_response({'status': 'Error', 'message': 'Battery with this identification does not exist'})
+            return make_response({'status': 'Error', 'message': 'Battery with this serial_number does not exist'})
 
         swap_check = Swap.query.filter(and_(Swap.battery_id == battery_check.id, Swap.end_time == None)).first()
         if swap_check is None:

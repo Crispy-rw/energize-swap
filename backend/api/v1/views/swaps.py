@@ -106,6 +106,9 @@ def get_finished_swaps():
     try:
         user_info = token_info(request.headers.get("Authorization"))
 
+        if user_info is False:
+            abort(400)
+
         station_id = user_info.get("station_id", None)
 
         total_swaps = Swap.query.filter(Swap.end_time != None)

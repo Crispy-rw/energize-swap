@@ -5,7 +5,7 @@ Drivies File
 
 
 from flask import jsonify, request, abort, make_response
-from api.v1.helpers import get_token, token_info
+from api.v1.helpers import get_token
 from api.v1.views import app_views
 from api.v1.models.driver import Driver
 from api.v1 import auth
@@ -67,17 +67,28 @@ def login():
 def create_driver():
     try:
         sent_data = request.get_json()
-        data = {"name": sent_data["name"], "email": sent_data["email"]}
+        data = {
+            "name": sent_data.get("name"),
+            "email": sent_data.get("email"),
+            "phone": sent_data.get("phone"),
+            "address": sent_data.get("address", ""),
+            "license_number": sent_data.get("license_number", ""),
+            "license_expiry": sent_data.get("license_expiry", ""),
+            "motocycle_make": sent_data.get("motocycle_make", ""),
+            "motocycle_model": sent_data.get("motocycle_model", ""),
+            "motocycle_year": sent_data.get("motocycle_year", 0)
+        }
 
         if (
             Driver.query.order_by(desc(Driver.created_at))
-            .filter(func.lower(Driver.email) == func.lower(sent_data["email"]))
+            .filter(func.lower(Driver.email) == func.lower(sent_data.get("email")))
             .first()
             is not None
         ):
             response = jsonify(
                 status="error",
-                message=("You have already " "registered driver with the same name"),
+                message=(
+                    "You have already " "registered driver with the same name"),
             )
             response.status_code = 400
             return response
@@ -89,6 +100,7 @@ def create_driver():
         response.status_code = 200
         return response
     except Exception as e:
+        print(e)
         abort(400)
 
 
