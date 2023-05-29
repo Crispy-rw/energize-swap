@@ -1,4 +1,4 @@
-from flask import request, make_response, abort
+from flask import request, abort, jsonify
 from api.v1.views import app_views
 from api.v1.models.battery import Battery
 
@@ -14,7 +14,9 @@ def create_battery():
              'serial_number': sent_data['serial_number'], 
              'station_id': sent_data['station_id']
              })
-        return make_response({'status': 'Ok', 'message': 'Registered new battery', 'data': resp.serialize_one}, 201)
+        return jsonify({'status': 'Ok',
+                         'message': 'Registered new battery',
+                           'data': resp.serialize_one}), 201
     except Exception as e:
         print("=>>", e)
         abort(400)
@@ -24,7 +26,7 @@ def create_battery():
 def get_all_batteries():
     try:
         batteries = Battery.query.all()
-        return make_response({
+        return jsonify({
             "status": "Ok",
             "message": "All Batteries information",
             "data": [battery.serialize_one for battery in batteries]

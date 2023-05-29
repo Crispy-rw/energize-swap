@@ -1,10 +1,12 @@
 from datetime import datetime
-from sqlalchemy.orm import relationship, backref
 from api.v1.models import db
 
 
 class Driver(db.Model):
+    """Model representing a motor driver in the battery swap network."""
+
     __tablename__ = 'drivers'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), unique=True)

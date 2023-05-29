@@ -4,7 +4,10 @@ from api.v1.models.station import Station
 
 
 class Battery(db.Model):
+    """Model representing a battery used in the battery swap network."""
+
     __tablename__ = 'batteries'
+    
     id = db.Column(db.Integer, primary_key=True)
     station_id = db.Column(db.Integer, db.ForeignKey(
         'stations.id'), nullable=False)
@@ -40,7 +43,7 @@ class Battery(db.Model):
             'battery_type': self.battery_type,
             'serial_number': self.serial_number,
             'manufacture_date': self.manufacture_date,
-            'station': Station.query.filter(Station.id == self.station_id).first().serialize_one,
+            'station': Station.query.filter(Station.id == self.station_id).first().serialize_one,  # noqa: E501
             'status': self.status,
             'created_at': self.created_at
         }

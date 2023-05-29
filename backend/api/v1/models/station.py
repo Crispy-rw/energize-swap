@@ -4,6 +4,8 @@ from datetime import datetime
 
 
 class Station(db.Model):
+    """Model representing a battery swap station in the battery swap network."""
+
     __tablename__ = 'stations'
 
     id = db.Column(db.Integer, primary_key=True)

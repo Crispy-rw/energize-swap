@@ -4,13 +4,12 @@ Drivies File
 """
 
 
-from flask import jsonify, request, abort, make_response
+from flask import jsonify, request, abort
 from api.v1.helpers import get_token
 from api.v1.views import app_views
 from api.v1.models.driver import Driver
 from api.v1 import auth
 from sqlalchemy import desc, func
-import json
 
 
 creds = {
@@ -85,20 +84,17 @@ def create_driver():
             .first()
             is not None
         ):
-            response = jsonify(
-                status="error",
-                message=(
+            return jsonify({
+                "status": "error",
+                "message":(
                     "You have already " "registered driver with the same name"),
-            )
-            response.status_code = 400
-            return response
+            }), 400
 
         resp = Driver.save(data)
-        response = jsonify(
-            status="Ok", message="Driver has been registered", data=resp.serialize_one
-        )
-        response.status_code = 200
-        return response
+        return jsonify({
+            "status": "Ok", "message": "Driver has been registered", "data": resp.serialize_one  # noqa: E501
+        })
+
     except Exception as e:
         print(e)
         abort(400)
@@ -108,7 +104,7 @@ def create_driver():
 @app_views.route("/drivers", methods=["GET"], strict_slashes=False)
 def get_drivers():
     try:
-        return make_response(
+        return jsonify(
             {
                 "status": "Ok",
                 "message": "All Drivers informations",

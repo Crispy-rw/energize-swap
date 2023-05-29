@@ -1,6 +1,5 @@
 from api.v1.models import db
 from api.v1.models.battery import Battery
-from api.v1.models.battery_movement import BatteryMovement
 from datetime import datetime
 
 from api.v1.models.driver import Driver
@@ -8,7 +7,10 @@ from api.v1.models.station import Station
 
 
 class Swap(db.Model):
+    """Model representing a battery swap transaction in the battery swap network."""
+
     __tablename__ = "swaps"
+
     id = db.Column(db.Integer, primary_key=True)
     battery_id = db.Column(db.Integer, db.ForeignKey("batteries.id"))
     driver_id = db.Column(db.Integer, db.ForeignKey("drivers.id"))
@@ -63,9 +65,6 @@ class Swap(db.Model):
     @classmethod
     def save(cls, data):
         battery = Battery.query.filter(Battery.id == data["battery_id"]).first()
-
-        print("=======>>>>>.", battery)
-
         battery.status = "In Movement"
 
         swap = cls(
@@ -88,10 +87,8 @@ class Swap(db.Model):
             swap.deposit_station_id = station_id
 
             battery = Battery.query.filter(Battery.id == swap.battery_id).first()
-            print("===>>>", battery)
             battery.station_id = station_id
             battery.status = "Available"
-            print("===>>>><<<<======", battery.station_id)
 
             db.session.add(swap)
             db.session.commit()
@@ -99,5 +96,5 @@ class Swap(db.Model):
             db.session.add(battery)
             db.session.commit()
             return swap
-        except:
+        except Exception:
             pass

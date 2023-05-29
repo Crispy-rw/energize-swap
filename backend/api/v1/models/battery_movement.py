@@ -3,7 +3,10 @@ from datetime import datetime
 
 
 class BatteryMovement(db.Model):
+    """Model representing the movement of a battery within the battery swap network."""
+
     __tablename__ = 'battery_movements'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     swap_id = db.Column(db.Integer, db.ForeignKey('swaps.id'), nullable=False)
     lat = db.Column(db.Float, nullable=False)
@@ -16,6 +19,9 @@ class BatteryMovement(db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     swaps = db.relationship('Swap', back_populates='battery_movements')
+
+    def __repr__(self):
+        return f'BatteryMovement(id={self.id}, swap_id={self.swap_id}, lat={self.lat}, long={self.long}, battery_percentage={self.battery_percentage}, timestamp={self.timestamp})'  # noqa: E501
 
     @classmethod
     def save(cls, data):
