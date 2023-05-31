@@ -1,8 +1,9 @@
-from flask import jsonify, request, make_response, abort
+from flask import jsonify, request
 from api.v1.helpers import token_info
 from api.v1.models.battery import Battery
 from api.v1.models.station import Station
 from api.v1.views import app_views
+from api.v1.models.swap import Swap
 
 
 
@@ -11,23 +12,33 @@ def create_station():
     try:
         sent_data = request.get_json()
         resp =  Station.save({'name': sent_data['name'], 'location': sent_data['location']})
-        return make_response({'status': 'Ok', 'message': 'New Station registered', 'data': resp.serialize_one})
+        return jsonify({'status': 'Ok', 'message': 'New Station registered', 'data': resp.serialize_one})
     except Exception as e:
-        print("==>>",e, "<<==")
-        abort(400)
+        return jsonify({
+            'status': "Error",
+            "message": "Error creating a station:  {}".format(e)
+        }), 400
 
 
 @app_views.route("/stations", methods=["GET"], strict_slashes=False)
 def get_stations():
     try:
-        batteries = Station.query.all()
-        return make_response({
+        data = []
+        for station  in Station.query.all():
+            json = station.serialize_one
+            json["total_swaps"] = len(Swap.query.filter(Swap.pickup_station_id == station.id).all())
+            data.append(json)
+
+        return jsonify({
             'status': "Ok",
             'message': "All Stations informations",
-            'data': [ battery.serialize_one for battery in batteries]
+            'data': data
         })
-    except:  # noqa: E722
-        abort(400)
+    except Exception as e:  # noqa: E722
+        return jsonify({
+            'status': "Error",
+            'message': "Erro" + e,
+        }), 400
 
 @app_views.route("/stations/batteries", methods=["GET"], strict_slashes=False)
 def get_batteries_per_station():
@@ -38,23 +49,19 @@ def get_batteries_per_station():
 
             station_batteries = Battery.query.filter(Battery.station_id == int(user_info["station_id"])).all()  # noqa: E501
 
-            return make_response({
+            return jsonify({
                 "status": "Ok",
                 "message": "Batteries fetched successfully",
                 "data": [battery.serialize_one for battery in station_batteries]
             })
         
-        response = jsonify({
+        return jsonify({
             'status': "Error",
             "message": "You need to be a station manager"
-        })
-        response.status_code = 401
-        return response
+        }), 400
 
     except Exception as e:
-        response = jsonify({
+        return jsonify({
             'status': "Error",
             "message": "Error fetching batteries {}".format(e)
-        })
-        response.status_code = 401
-        return response
+        }), 400

@@ -1,4 +1,4 @@
-from flask import request, make_response, abort, jsonify
+from flask import request, jsonify
 from api.v1.views import app_views
 from api.v1.models.battery import Battery
 from api.v1.models.battery_movement import BatteryMovement
@@ -31,21 +31,7 @@ def update_movement(serial_number):
 
         return jsonify({'status': 'Ok', 'message': 'Movemement updated successfully', 'data': movement.serialize_one}),  201  # noqa: E501
     except Exception as e:
-        print("==>>>", e)
-        abort(400)
-
-
-@app_views.route('movements', methods=['GET'], strict_slashes=False)
-def movement():
-    try:
-        # TODO returned movement of a specific battery swap
-        swaps = Swap.query.filter(Swap.end_time == None).all()
-        response = jsonify(
-            status="Ok",
-            message="Battery in movement returned",
-            data=[]
-        )
-        response.status_code = 200
-        return response
-    except:
-        abort(400)
+        return jsonify({
+            'status': "Error",
+            "message": "Error updating battery movements {}".format(e)
+        }), 400

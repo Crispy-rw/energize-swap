@@ -1,10 +1,6 @@
 #!/usr/bin/python3
-"""
-Drivies File
-"""
 
-
-from flask import jsonify, request, abort
+from flask import jsonify, request
 from api.v1.helpers import get_token
 from api.v1.views import app_views
 from api.v1.models.driver import Driver
@@ -96,8 +92,10 @@ def create_driver():
         })
 
     except Exception as e:
-        print(e)
-        abort(400)
+        return jsonify({
+            'status': "Error",
+            "message": "Error creating a driver:  {}".format(e)
+        }), 400
 
 
 @auth
@@ -112,5 +110,7 @@ def get_drivers():
             }
         )
     except Exception as e:
-        print("==>", e)
-        abort(400)
+        return jsonify({
+            'status': "Error",
+            "message": "Error fetching drivers {}".format(e)
+        }), 400

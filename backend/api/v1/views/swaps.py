@@ -1,4 +1,4 @@
-from flask import request, abort, jsonify
+from flask import request, jsonify
 from api.v1.models.swap import Swap
 from api.v1.views import app_views
 from api.v1.helpers import measurePath, token_info
@@ -16,14 +16,10 @@ def create_battery_swap():
             .first()
         )
         if check_battery is not None:
-            response = jsonify(
-                {
+            return jsonify({
                     "status": "ok",
                     "message": "Battery in movement",
-                }
-            )
-            response.status_code = 400
-            return response
+                }), 400
 
         check_driver = (
             Swap.query
@@ -66,18 +62,18 @@ def get_ongoing_swaps():
     try:
         swaps = Swap.query.filter(Swap.end_time == None).all()
 
-        response = jsonify(
+        return jsonify(
             {
                 "status": "ok",
                 "message": "Battery in movement",
                 "data": [swap.serialize_one for swap in swaps],
             }
-        )
-        response.status_code = 200
-        return response
+        ), 200
     except Exception as e:
-        print(e)
-        abort(400)
+        return jsonify({
+            'status': "Error",
+            "message": "Error fetching swaps {}".format(e)
+        }), 400
 
 
 @app_views.route("swaps/stopswap/<swap_id>", methods=["PUT"], strict_slashes=False)
@@ -100,8 +96,11 @@ def stop_battery_swap(swap_id):
         return jsonify(
             {"status": "Error", "message": "Station_id not available"}), 400
     
-    except Exception:
-        abort(400)
+    except Exception as e:
+        return jsonify({
+            'status': "Error",
+            "message": "Error stopping a swap {}".format(e)
+        }), 400
 
 
 @app_views.route("swaps/totalswappedbattery", methods=["GET"], strict_slashes=False)
@@ -110,7 +109,10 @@ def get_finished_swaps():
         user_info = token_info(request.headers.get("Authorization"))
 
         if user_info is False:
-            abort(400)
+            return jsonify({
+            'status': "Error",
+            "message": "Invalid Token {}"
+            }), 400
 
         station_id = user_info.get("station_id", None)
 
@@ -132,13 +134,14 @@ def get_finished_swaps():
             )
             data.append(json)
 
-        response = jsonify(
+        return jsonify(
             {"status": "Ok", "message": "All swaps information", "data": data}
-        )
-        response.status_code = 200
-        return response
-    except Exception:
-        abort(400)
+        ), 200
+    except Exception as e:
+        return jsonify({
+            'status': "Error",
+            "message": "Error fetching data {}".format(e)
+        }), 400
 
 
 @app_views.route("swaps/<swap_id>", methods=["GET"], strict_slashes=False)
@@ -158,5 +161,7 @@ def get_swap_information(swap_id):
         response.status_code = 200
         return response
     except Exception as e:
-        print("==>", e)
-        abort(400)
+        return jsonify({
+            'status': "Error",
+            "message": "Error fetching swap info {}".format(e)
+        }), 400
