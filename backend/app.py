@@ -13,8 +13,7 @@ def migrate():
     with APP.app_context():
       try:
         db.create_all()
-        print("TABLES MIGRATEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
-      except:
+      except Exception as e:
         pass
 
 @APP.teardown_appcontext
