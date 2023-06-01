@@ -4,22 +4,41 @@ from api.v1.models.battery import Battery
 from api.v1.models.station import Station
 from api.v1.views import app_views
 from api.v1.models.swap import Swap
+from api.v1.inputs.inputs import REGISTER_STATION, validate
+from api.v1 import auth
+
 
 
 
 @app_views.route('stations/addstation', methods=['POST'], strict_slashes=False)
 def create_station():
     try:
-        sent_data = request.get_json()
+        sent_data = request.get_json(force=True)
+
+        valid = validate(sent_data, REGISTER_STATION)
+
+        if valid is not True:
+            response = jsonify(
+                status='error',
+                message="Please provide valid details",
+                errors=valid)
+            response.status_code = 400
+            return response
+
+
         resp =  Station.save({'name': sent_data['name'], 'location': sent_data['location']})
-        return jsonify({'status': 'Ok', 'message': 'New Station registered', 'data': resp.serialize_one})
+        return jsonify({'status': 'Ok', 
+                        'message': 'New Station registered', 
+                        'data': resp.serialize_one})
     except Exception as e:
-        return jsonify({
-            'status': "Error",
-            "message": "Error creating a station:  {}".format(e)
-        }), 400
+        return jsonify(
+            status = "Error",
+            message = "Error creating a station:  {}".format(e)
+        ), 400
 
 
+
+@auth
 @app_views.route("/stations", methods=["GET"], strict_slashes=False)
 def get_stations():
     try:

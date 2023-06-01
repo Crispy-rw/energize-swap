@@ -13,26 +13,20 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  InputLabel,
   MenuItem,
-  Select,
   TextField,
 } from "@mui/material";
 
 import {
   useCreateSwapMutation,
   useGetAllDriversQuery,
-  useGetBatteryMovementQuery,
   useGetOngoingSwapsQuery,
   useGetStationBatteriesQuery,
   useSwapFinishedMutation,
 } from "../../redux/features/apiSlice";
 import { Button, Stack } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import { formatTime } from "../../configs/helpers";
 
 const style = {
   position: "absolute",
@@ -40,7 +34,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
-  // border: "2px solid #000",
   boxShadow: 24,
   borderRadius: "5px",
   overflow: "hidden",
@@ -188,16 +181,14 @@ const StationBatteryMovementPage = () => {
                       ? "-"
                       : row.deposit_station?.name}
                   </TableCell>
-                  <TableCell align="right">{row.start_time}</TableCell>
-                  <TableCell align="right">{row.end_time}</TableCell>
+                  <TableCell align="right">{formatTime(row.start_time)}</TableCell>
+                  <TableCell align="right">{row.end_time == null ? "-": formatTime(row.end_time)}</TableCell>
                   <TableCell align="right">
                     {row.deposit_station_id == null ? "On going" : "Stopped"}
                   </TableCell>
                   <TableCell align="right">
                     <Button
-                      onClick={() => {
-                        stopSwap(row.id);
-                      }}
+                      onClick={() => {stopSwap(row.id)}}
                     >
                       Stop
                     </Button>
@@ -227,28 +218,8 @@ const StationBatteryMovementPage = () => {
               <CloseIcon />
             </div>
             <form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
-              {/* <Controller
-                name=""
-                control={control}
-                register={register}
-                setValue={setValue}
-                defaultValue={""}
-                render={({ field }) => (
-                  <TextField
-                  select
-                    required
-                    {...field}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Battery"
-                  >
-                    
-                  </TextField>
-                )}
-              /> */}
-
                 <Controller
-                  name="battery_id"
+                  name="battery"
                   control={control}
                   register={register}
                   setValue={setValue}
@@ -275,7 +246,7 @@ const StationBatteryMovementPage = () => {
 
 
                 <Controller
-                  name="driver_id"
+                  name="driver"
                   control={control}
                   register={register}
                   setValue={setValue}

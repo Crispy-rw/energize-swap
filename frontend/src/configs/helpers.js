@@ -11,3 +11,11 @@ export default () => {
 		return null;
 	}
 };
+
+
+export const formatTime = (data) => {
+	const date = new Date(data);
+	const options = { year: '2-digit', month: 'numeric', day: 'numeric',  hour: 'numeric', minute: 'numeric', hour12: true };
+	const formatter = new Intl.DateTimeFormat('en-US', options);
+	return formatter.format(date);
+}

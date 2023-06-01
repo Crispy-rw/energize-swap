@@ -15,11 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import {
   Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  InputLabel,
   MenuItem,
   Select,
   Stack,
@@ -32,6 +27,7 @@ import {
   useGetAllBatteriesQuery,
   useGetAllStationsQuery,
 } from "../../redux/features/apiSlice";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -39,7 +35,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
-  // border: "2px solid #000",
   boxShadow: 24,
   borderRadius: "5px",
   overflow: "hidden",
@@ -102,9 +97,10 @@ const BatteriesPage = (props) => {
     setValue,
   } = useForm({
     defaultValues: {
-      identication_mark: "",
-      station_id: "",
-      name: "",
+      serial_number: "",
+      station: "",
+      battery_type: "",
+      manufacture_date: "",
     },
   });
 
@@ -116,6 +112,9 @@ const BatteriesPage = (props) => {
         setOpen(false);
       })
       .catch((err) => {
+        toast.error(err?.data?.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
         console.log("Erroe creatng a new Battery", err);
       });
   };
@@ -225,7 +224,7 @@ const BatteriesPage = (props) => {
               />
 
               <Controller
-                name="station_id"
+                name="station"
                 control={control}
                 register={register}
                 setValue={setValue}

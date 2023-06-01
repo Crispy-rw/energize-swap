@@ -7,6 +7,8 @@ from api.v1.models.driver import Driver
 from api.v1 import auth
 from sqlalchemy import desc, func
 
+from api.v1.inputs.inputs import LOGIN_RULES, REGISTER_DRIVER, validate
+
 
 creds = {
     "admin@example.com": {
@@ -27,15 +29,24 @@ creds = {
 
 @app_views.route("/login", methods=["POST"], strict_slashes=False)
 def login():
-    sent_data = request.get_json()
+    sent_data = request.get_json(force=True)
+
+    valid = validate(sent_data, LOGIN_RULES)
+
+    if valid is not True:
+        return jsonify(
+            status='error',
+            message="Please provide valid details",
+            errors=valid), 400
+
     email = sent_data["email"]
     password = sent_data["password"]
-    station_id = sent_data.get("station_id", None)
+    station = sent_data.get("station", None)
 
     if email in creds and password == creds[email]["password"]:
 
         # check if he is an admin
-        if station_id is None and creds[email]["role"] == "admin":
+        if station is None and creds[email]["role"] == "admin":
             # Generate JWT token
             token = get_token(creds[email])
 
@@ -43,9 +54,9 @@ def login():
             return jsonify({"email": email, "token": token})
 
         # check if a user is a manager
-        elif station_id is not None and creds[email]["role"] == "manager":
+        elif station is not None and creds[email]["role"] == "manager":
             # append the station_id to the user obj
-            creds[email]["station_id"] = station_id
+            creds[email]["station_id"] = station
 
             # Generate JWT token
             token = get_token(creds[email])
@@ -61,7 +72,16 @@ def login():
 @app_views.route("drivers/addriver", methods=["POST"], strict_slashes=False)
 def create_driver():
     try:
-        sent_data = request.get_json()
+        sent_data = request.get_json(force=True)
+
+        valid = validate(sent_data, REGISTER_DRIVER)
+
+        if valid is not True:
+            return jsonify(
+                status='error',
+                message="Please provide valid details",
+                errors=valid), 400
+
         data = {
             "name": sent_data.get("name"),
             "email": sent_data.get("email"),
@@ -83,7 +103,7 @@ def create_driver():
             return jsonify({
                 "status": "error",
                 "message":(
-                    "You have already " "registered driver with the same name"),
+                    "You have alreadyregistered driver with the same name"),
             }), 400
 
         resp = Driver.save(data)

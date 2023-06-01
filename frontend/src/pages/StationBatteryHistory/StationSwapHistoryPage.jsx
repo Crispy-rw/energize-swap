@@ -6,13 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import { useGetSwapHistoryQuery } from "../../redux/features/apiSlice";
 import { Stack } from "@mui/material";
+import { formatTime } from "../../configs/helpers";
+
 
 const StationSwapHistoryPage = () => {
   const { data, error, isError, refetch, isLoading } = useGetSwapHistoryQuery();
@@ -20,6 +18,12 @@ const StationSwapHistoryPage = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  if(isError){
+    toast.error(error?.data?.message, {
+      position: toast.POSITION.TOP_RIGHT
+    })
+  }
 
   return (
     <div>
@@ -58,8 +62,8 @@ const StationSwapHistoryPage = () => {
                   <TableCell align="right">
                     {row.deposit_station?.name}
                   </TableCell>
-                  <TableCell align="right">{row.start_time}</TableCell>
-                  <TableCell align="right">{row.end_time}</TableCell>
+                  <TableCell align="right">{formatTime(row.start_time)}</TableCell>
+                  <TableCell align="right">{formatTime(row.end_time)}</TableCell>
                   <TableCell align="right">{row?.distance} km</TableCell>
                 </TableRow>
               ))}

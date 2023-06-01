@@ -29,6 +29,7 @@ import {
   useCreateStationMutation,
   useGetAllStationsQuery,
 } from "../../redux/features/apiSlice";
+import { toast } from "react-toastify";
 
 const locations = ["Kicukiro", "Gasabo", "Nyarugenge"];
 
@@ -38,7 +39,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
-  // border: "2px solid #000",
   boxShadow: 24,
   borderRadius: "5px",
   overflow: "hidden",
@@ -106,15 +106,15 @@ export default function StationsPage(props) {
         setOpen(false);
       })
       .catch((err) => {
-        console.log("Error creating a Station", err);
+        toast.error(err?.data?.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
       });
   };
 
   useEffect(() => {
     refetch();
   }, []);
-
-  console.log(data);
 
   return (
     <div>

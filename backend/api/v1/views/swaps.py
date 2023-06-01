@@ -2,16 +2,26 @@ from flask import request, jsonify
 from api.v1.models.swap import Swap
 from api.v1.views import app_views
 from api.v1.helpers import measurePath, token_info
+from api.v1.inputs.inputs import REGISTER_SWAP_RULE, validate
 
 
 @app_views.route("swaps/addswap", methods=["POST"], strict_slashes=False)
 def create_battery_swap():
     try:
         sent_data = request.get_json()
+
+        valid = validate(sent_data, REGISTER_SWAP_RULE)
+
+        if valid is not True:
+            return jsonify(
+                status='error',
+                message="Please provide valid details",
+                errors=valid),400
+
         user_info = token_info(request.headers.get("Authorization"))
         check_battery = (
             Swap.query
-            .filter(Swap.battery_id == sent_data["battery_id"])
+            .filter(Swap.battery_id == sent_data["battery"])
             .filter(Swap.end_time == None)
             .first()
         )
@@ -36,8 +46,8 @@ def create_battery_swap():
 
         swap = Swap.save(
             {
-                "battery_id": sent_data["battery_id"],
-                "driver_id": sent_data["driver_id"],
+                "battery_id": sent_data["battery"],
+                "driver_id": sent_data["driver"],
                 "station_id": user_info["station_id"],
             }
         )

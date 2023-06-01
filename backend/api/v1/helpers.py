@@ -48,10 +48,8 @@ def token_info(token):
         claims = jwt.decode(token.split(' ')[1], 'test')
         claims.validate()
     except ExpiredTokenError as e:
-        print("=>", e)
         return False
     except Exception as e:  # noqa: E722
-        print("===>", e)
         return False
     return claims
 

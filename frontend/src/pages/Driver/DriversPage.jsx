@@ -8,10 +8,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {
   Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Grid,
   Stack,
   TextField,
 } from "@mui/material";
@@ -27,6 +23,7 @@ import {
   useGetAllDriversQuery,
 } from "../../redux/features/apiSlice";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -105,7 +102,10 @@ const DriversPage = (props) => {
         setOpen(false);
       })
       .catch((err) => {
-        console.log("Error creating a driver =>", err);
+        console.log(err)
+        toast.error(err?.data?.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
       });
   };
 

@@ -5,11 +5,22 @@ from api.v1.models.battery_movement import BatteryMovement
 from api.v1.models.swap import Swap
 from sqlalchemy import and_
 
+from api.v1.inputs.inputs import REGISTER_MOVEMENT_RULE, validate
+
 
 @app_views.route('movements/<serial_number>', methods=['POST'], strict_slashes=False)
 def update_movement(serial_number):
     try:
         sent_data = request.get_json()
+
+        valid = validate(sent_data, REGISTER_MOVEMENT_RULE)
+
+        if valid is not True:
+            return jsonify(
+                status='error',
+                message="Please provide valid details",
+                errors=valid),400
+
         battery_check = Battery.query.filter(
             Battery.serial_number == serial_number).first()
         if battery_check is None:

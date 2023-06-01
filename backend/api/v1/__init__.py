@@ -1,6 +1,3 @@
-'''
-    Our Main api routes
-'''
 from functools import wraps
 from flask import jsonify, request
 

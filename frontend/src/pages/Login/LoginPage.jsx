@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Controller, useForm } from "react-hook-form";
 import { Button, MenuItem, TextField, Typography } from "@mui/material";
+import { toast } from "react-toastify"
 
 import "./login.css";
 
@@ -72,7 +73,7 @@ function LoginPage() {
 
   React.useEffect(() => {
     function getStations() {
-      fetch("http://backend/api/v1/stations", {
+      fetch("http://localhost:5000/api/v1/stations", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -93,8 +94,6 @@ function LoginPage() {
   };
 
   const onSubmit = (data) => {
-    console.log("==>>", data);
-
     fetch("http://localhost:5000/api/v1/login", {
       method: "POST",
       body: JSON.stringify({ ...data }),
@@ -104,19 +103,21 @@ function LoginPage() {
         if (res.ok) {
           return res.json();
         }
+        res.json().then( res => {
+          toast.error(res?.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+        })
         throw new Error(res.statusText);
       })
       .then(({ token }) => {
         localStorage.setItem("token", token);
-        if (!data?.station_id) {
+        if (!data?.station) {
           window.location.replace("/admin/drivers");
         } else {
           window.location.replace("/manager/swaps/ongoing");
         }
       })
-      .catch((err) => {
-        console.log(err, "-------<<<<<<>");
-      });
   };
 
   return (
@@ -226,7 +227,7 @@ function LoginPage() {
             </div>
             <div>
               <Controller
-                name="station_id"
+                name="station"
                 control={control}
                 register={register}
                 setValue={setValue}
@@ -252,7 +253,7 @@ function LoginPage() {
                 )}
               />
 
-              {errors.station_id?.type === "required" && (
+              {errors.station?.type === "required" && (
                 <p role="alert">Station is required</p>
               )}
             </div>
