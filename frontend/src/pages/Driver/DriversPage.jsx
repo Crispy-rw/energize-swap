@@ -182,7 +182,7 @@ const DriversPage = (props) => {
               <Typography fontSize={"20px"}>
               Add New Driver  
               </Typography>
-              <CloseIcon />
+              <CloseIcon onClick={handleClose} />
             </div>
             <form
               onSubmit={handleSubmit(onSubmit)}

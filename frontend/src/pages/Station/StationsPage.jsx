@@ -173,7 +173,7 @@ export default function StationsPage(props) {
             <Box sx={style}>
               <div style={headerStyles}>
                 <Typography fontSize={"20px"}>Add New Station</Typography>
-                <CloseIcon />
+                <CloseIcon onClick={handleClose} />
               </div>
               <form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
                 <TextField

@@ -7,8 +7,10 @@ COPY ./yarn.lock ./
 
 RUN yarn install
 
+RUN yarn build
+
 COPY . .
 
 EXPOSE 5173
 
-CMD ["yarn", "start"]
+CMD ["npx", "serve", "build/", "-l", "5173"]

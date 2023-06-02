@@ -7,6 +7,7 @@ import { Button, MenuItem, TextField, Typography } from "@mui/material";
 import { toast } from "react-toastify"
 
 import "./login.css";
+import { BASE_URL } from "../../configs";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -73,7 +74,7 @@ function LoginPage() {
 
   React.useEffect(() => {
     function getStations() {
-      fetch("http://localhost:5000/api/v1/stations", {
+      fetch(`${BASE_URL}stations`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -82,7 +83,9 @@ function LoginPage() {
           setStations(json?.data);
         })
         .catch((err) => {
-          console.log(err);
+          toast.error(err.message,{
+            position: toast.POSITION.TOP_RIGHT
+          })
         });
     }
     getStations();
@@ -104,7 +107,7 @@ function LoginPage() {
           return res.json();
         }
         res.json().then( res => {
-          toast.error(res?.message, {
+          toast.error(res?.error, {
             position: toast.POSITION.TOP_RIGHT
           });
         })
@@ -112,13 +115,13 @@ function LoginPage() {
       })
       .then(({ token }) => {
         localStorage.setItem("token", token);
-        if (!data?.station) {
-          window.location.replace("/admin/drivers");
-        } else {
-          window.location.replace("/manager/swaps/ongoing");
+        if (data) {
+          window.location.replace("/");
         }
       })
   };
+
+  console.log("))))))))))", errors)
 
   return (
     <>
@@ -145,10 +148,10 @@ function LoginPage() {
                 variant="filled"
                 fullWidth
                 type="email"
-                required
+                // required
                 label="Email"
                 {...register("email", {
-                  required: true,
+                  required: "Email is required",
                   maxLength: 20,
                   minLength: 3,
                 })}
@@ -163,7 +166,7 @@ function LoginPage() {
                 variant="filled"
                 id="outlined-password-input"
                 label="Password"
-                required
+                // required
                 type="password"
                 autoComplete="current-password"
                 {...register("password", {

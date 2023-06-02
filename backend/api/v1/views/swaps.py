@@ -44,27 +44,22 @@ def create_battery_swap():
                 "message": "Driver in movement",
             }), 400
 
-        swap = Swap.save(
-            {
+        swap = Swap.save( {
                 "battery_id": sent_data["battery"],
                 "driver_id": sent_data["driver"],
                 "station_id": user_info["station_id"],
-            }
-        )
-        return jsonify(
-            {
+            })
+
+        return jsonify({
                 "status": "Ok",
                 "message": "New battery Swap Created",
                 "data": swap.serialize_one,
-            }
-        ), 201
+            }), 201
+    
     except Exception:
-        return jsonify(
-            {
-                "status": "Error",
-                "message": "Error creating a new battery swap",
-            }
-        ),400
+        return jsonify({"status": "Error",
+                        "message": "Error creating a new battery swap",
+                        }),400
 
 
 @app_views.route("swaps", methods=["GET"], strict_slashes=False)
@@ -121,7 +116,7 @@ def get_finished_swaps():
         if user_info is False:
             return jsonify({
             'status': "Error",
-            "message": "Invalid Token {}"
+            "message": "Invalid Token"
             }), 400
 
         station_id = user_info.get("station_id", None)

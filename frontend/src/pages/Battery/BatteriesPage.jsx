@@ -185,7 +185,7 @@ const BatteriesPage = (props) => {
           <Box sx={style}>
             <div style={headerStyles}>
               <Typography fontSize={"20px"}>Create a new battery</Typography>
-              <CloseIcon />
+              <CloseIcon onClick={handleClose} />
             </div>
             <form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
               <TextField

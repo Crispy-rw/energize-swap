@@ -12,7 +12,9 @@ const Sidebar = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    window.location.replace("/login");
+    window.location.replace("/").then(()=>{
+       window.location.reload();
+    });
   };
 
   return (

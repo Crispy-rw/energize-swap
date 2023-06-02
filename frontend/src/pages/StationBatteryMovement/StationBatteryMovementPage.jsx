@@ -27,6 +27,7 @@ import {
 import { Button, Stack } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { formatTime } from "../../configs/helpers";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -114,6 +115,9 @@ const StationBatteryMovementPage = () => {
       })
       .catch((err) => {
         console.log("Err creating a new swap", err);
+        toast.error(err?.data?.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
       });
   };
 
@@ -128,7 +132,9 @@ const StationBatteryMovementPage = () => {
         refetch();
       })
       .catch((err) => {
-        console.log("===>>>", err);
+        toast.error(err?.data?.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
       });
   };
 
@@ -215,7 +221,7 @@ const StationBatteryMovementPage = () => {
           <Box sx={style}>
             <div style={headerStyles}>
               <Typography fontSize={"20px"}>New Battery Swap Form</Typography>
-              <CloseIcon />
+              <CloseIcon onClick={handleClose} />
             </div>
             <form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
                 <Controller
