@@ -6,10 +6,15 @@ from api.v1.models.swap import Swap
 from sqlalchemy import and_
 
 from api.v1.inputs.inputs import REGISTER_MOVEMENT_RULE, validate
+from api.v1 import auth
 
 
 @app_views.route('movements/<serial_number>', methods=['POST'], strict_slashes=False)
+@auth
 def update_movement(serial_number):
+    '''
+        Update the movement of a swapped battery
+    '''
     try:
         sent_data = request.get_json()
 

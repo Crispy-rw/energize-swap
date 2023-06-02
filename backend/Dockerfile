@@ -24,8 +24,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . /app
 
-ADD entrypoint.sh /entrypoint.sh
-
-RUN ["chmod", "+x", "/entrypoint.sh"]
-
 CMD /wait &&  flask db reset && flask run --host=0.0.0.0

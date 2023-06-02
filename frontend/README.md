@@ -1,6 +1,3 @@
----
-title: Energize Swap Frontend
----
 
 # Energize Swap Frontend
 
@@ -8,7 +5,7 @@ The Energize Swap Frontend is a user interface built using modern web technologi
 
 ## Features
 
-- **Driver Management:** Register new drivers, view driver information, and update driver details.
+- **Driver Management:** Register new drivers and view drivers information
 - **Battery Management:** Add new batteries, track battery locations, and monitor battery status.
 - **Swap Station Management:** Create and manage swap stations, view station details, and assign batteries to stations.
 - **Battery Swap Operations:** Perform battery swaps, initiate battery movement, and track ongoing and completed swaps.
@@ -47,7 +44,7 @@ The frontend project follows a modular folder structure, allowing easy organizat
 
 The Energize Swap Frontend can be deployed to various hosting platforms or integrated into existing web applications. It's recommended to build the production version of the frontend before deployment.
 
-To build the production version, run: `npm run build`
+To build the production version, run: `yarn build`
 
 This command will generate optimized and minified static files in the `build` directory. You can then deploy these files to a static file server or integrate them with your backend server.
 

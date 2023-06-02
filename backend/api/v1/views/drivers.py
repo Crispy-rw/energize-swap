@@ -29,6 +29,9 @@ creds = {
 
 @app_views.route("/login", methods=["POST"], strict_slashes=False)
 def login():
+    '''
+        User authentication
+    '''
     sent_data = request.get_json(force=True)
 
     valid = validate(sent_data, LOGIN_RULES)
@@ -68,9 +71,12 @@ def login():
     return jsonify({"error": "Invalid email or password"}), 401
 
 
-@auth
 @app_views.route("drivers/addriver", methods=["POST"], strict_slashes=False)
+@auth
 def create_driver():
+    '''
+        Create a new driver
+    '''
     try:
         sent_data = request.get_json(force=True)
 
@@ -118,17 +124,18 @@ def create_driver():
         }), 400
 
 
-@auth
 @app_views.route("/drivers", methods=["GET"], strict_slashes=False)
+@auth
 def get_drivers():
+    '''
+        Get all drivers information
+    '''
     try:
-        return jsonify(
-            {
+        return jsonify({
                 "status": "Ok",
                 "message": "All Drivers informations",
                 "data": [driver.serialize_one for driver in Driver.query.all()],
-            }
-        )
+            })
     except Exception as e:
         return jsonify({
             'status': "Error",

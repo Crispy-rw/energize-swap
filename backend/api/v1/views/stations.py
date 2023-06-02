@@ -11,7 +11,11 @@ from api.v1 import auth
 
 
 @app_views.route('stations/addstation', methods=['POST'], strict_slashes=False)
+@auth
 def create_station():
+    '''
+        Create a new station
+    '''
     try:
         sent_data = request.get_json(force=True)
 
@@ -38,9 +42,12 @@ def create_station():
 
 
 
-@auth
+
 @app_views.route("/stations", methods=["GET"], strict_slashes=False)
 def get_stations():
+    '''
+        Get all stations
+    '''
     try:
         data = []
         for station  in Station.query.all():
@@ -59,8 +66,13 @@ def get_stations():
             'message': "Erro" + e,
         }), 400
 
+
 @app_views.route("/stations/batteries", methods=["GET"], strict_slashes=False)
+@auth
 def get_batteries_per_station():
+    '''
+        Get all batteries of a specific station
+    '''
     try:
         user_info = token_info(request.headers.get("Authorization"))
 

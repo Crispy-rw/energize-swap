@@ -2,10 +2,15 @@ from flask import request, jsonify
 from api.v1.views import app_views
 from api.v1.models.battery import Battery
 from api.v1.inputs.inputs import REGISTER_BATTERY_RULES, validate
+from api.v1 import auth
 
 
 @app_views.route('batteries/addbattery', methods=['POST'], strict_slashes=False)
+@auth
 def create_battery():
+    '''
+        Create a new battery
+    '''
     try:
         sent_data = request.get_json()
 
@@ -34,7 +39,11 @@ def create_battery():
 
 
 @app_views.route("/batteries", methods=["GET"], strict_slashes=False)
+@auth
 def get_all_batteries():
+    '''
+        Get all batteries with their information
+    '''
     try:
         batteries = Battery.query.all()
         return jsonify({

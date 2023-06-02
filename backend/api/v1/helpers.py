@@ -8,11 +8,15 @@ RADIUS = 6371
 
 # Assuming RADIUS is a global constant
 def toRad(degrees):
-  # Converts degrees to radians
+  '''
+    Converts degrees to radians
+  '''
   return degrees * math.pi / 180
 
 def getDistance(from_, to):
-  # Calculates the distance between two points on a sphere
+  '''
+    Calculates the distance between two points on a sphere
+  '''
   fromLat = from_[0]
   fromLon = from_[1]
   toLat = to[0]
@@ -29,7 +33,9 @@ def getDistance(from_, to):
   return RADIUS * c
 
 def measurePath(points):
-  # Measures the total distance of a path given by a list of points
+  '''
+    Measures the total distance of a path given by a list of points 
+  '''
   lastPoint = None
   distance = 0
   for point in points:
@@ -41,15 +47,15 @@ def measurePath(points):
 
 def token_info(token):
     '''
-        Check token if token is valid this returns ID aapended to it
+        Check token if token is valid this returns infor apended to it
     '''
     try:
         
         claims = jwt.decode(token.split(' ')[1], 'test')
         claims.validate()
-    except ExpiredTokenError as e:
+    except ExpiredTokenError:
         return False
-    except Exception as e:  # noqa: E722
+    except Exception:  # noqa: E722
         return False
     return claims
 

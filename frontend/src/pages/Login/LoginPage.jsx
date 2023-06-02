@@ -107,7 +107,7 @@ function LoginPage() {
           return res.json();
         }
         res.json().then( res => {
-          toast.error(res?.error, {
+          toast.error(res?.error||res?.message, {
             position: toast.POSITION.TOP_RIGHT
           });
         })

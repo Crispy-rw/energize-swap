@@ -3,10 +3,15 @@ from api.v1.models.swap import Swap
 from api.v1.views import app_views
 from api.v1.helpers import measurePath, token_info
 from api.v1.inputs.inputs import REGISTER_SWAP_RULE, validate
+from api.v1 import auth
 
 
 @app_views.route("swaps/addswap", methods=["POST"], strict_slashes=False)
+@auth
 def create_battery_swap():
+    '''
+        Create a new battery exchange
+    '''
     try:
         sent_data = request.get_json()
 
@@ -63,7 +68,11 @@ def create_battery_swap():
 
 
 @app_views.route("swaps", methods=["GET"], strict_slashes=False)
+@auth
 def get_ongoing_swaps():
+    '''
+        Get all active battery exchange
+    '''
     try:
         swaps = Swap.query.filter(Swap.end_time == None).all()
 
@@ -82,15 +91,18 @@ def get_ongoing_swaps():
 
 
 @app_views.route("swaps/stopswap/<swap_id>", methods=["PUT"], strict_slashes=False)
+@auth
 def stop_battery_swap(swap_id):
+    '''
+        Stop an active battery movememnt
+    '''
     try:
         user_info = token_info(request.headers.get("Authorization"))
         if user_info["station_id"]:
             swap = Swap.stop_swap(swap_id, user_info["station_id"])
 
             if swap.end_time is not None:
-                return jsonify(
-                    {
+                return jsonify({
                         "status": "Ok",
                         "message": "Battery returned successfully",
                         "data": swap.serialize_one,
@@ -109,7 +121,12 @@ def stop_battery_swap(swap_id):
 
 
 @app_views.route("swaps/totalswappedbattery", methods=["GET"], strict_slashes=False)
+@auth
 def get_finished_swaps():
+    '''
+        Get all swapped(exchanged) batteries
+    
+    '''
     try:
         user_info = token_info(request.headers.get("Authorization"))
 
@@ -150,7 +167,11 @@ def get_finished_swaps():
 
 
 @app_views.route("swaps/<swap_id>", methods=["GET"], strict_slashes=False)
+@auth
 def get_swap_information(swap_id):
+    '''
+        Get specific battery exchange information
+    '''
     try:
         swap = Swap.query.filter(Swap.id == swap_id).first()
         distance = round(
@@ -160,11 +181,9 @@ def get_swap_information(swap_id):
 
         data = swap.serialize_one
         data["distance"] = distance
-        response = jsonify(
+        return jsonify(
             {"status": "Ok", "message": "Swap information returned", "data": data}
-        )
-        response.status_code = 200
-        return response
+        ), 200
     except Exception as e:
         return jsonify({
             'status': "Error",

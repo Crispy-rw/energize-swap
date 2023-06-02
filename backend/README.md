@@ -1,6 +1,3 @@
----
-title: Energize Swap Backend API
----
 
 # Energize Swap Backend API
 
@@ -34,22 +31,22 @@ The API will be accessible at `http://localhost:5000`.
 
 ## API ENDPOINTS
 
-| Ressource URL                    | Methods | Description                                     | Authentication required |
-| -------------------------------- | ------- | ----------------------------------------------- | ----------------------- |
-| /api/v1/batteries                | GET     | Get a list of all batteries                     | Yes                     |
-| /api/v1/batteries/addbattery     | POST    | Create a new battery                            | Yes                     |
-| /api/v1/drivers                  | GET     | GET a list of drivers                           | Yes                     |
-| /api/v1/drivers/addriver         | POST    | Create a new driver                             | Yes                     |
-| /api/v1/stations                 | GET     | Get a list of stations                          | No                      |
-| /api/v1/stations/addstation      | POST    | Create a new Station                            | Yes                     |
-| /api/v1/stations/batteries       | GET     | Get all batteries of a specific stations        | Yes                     |
-| /api/v1/swaps                    | GET     | Get a list of all battery exchange              | Yes                     |
-| /api/v1/swaps/addswap            | POST    | Create a new battery exchange                   | Yes                     |
-| /api/v1/swaps/stopswap/<swap_id> | PUT     | Modify/Edit a specific swap to finish it        | Yes                     |
-| /api/v1/swaps/totalswappedbattery| GET     | Get a list of total battery exchanged           | Yes                     |
-| /api/v1/swaps/<swap_id>          | GET     | Get information of one battery exchange         | Yes                     |
-| /api/v1/movements/<serial_number>| POST    | Update the movement of an active battery        | Yes                     |
-| /api/v1/login                    | POST    | Authentication                                  | No                      |
+| Ressource URL                    | Methods | Description                                     | Authentication required | Role           |
+| -------------------------------- | ------- | ----------------------------------------------- | ----------------------- | ---------------|
+| /api/v1/batteries                | GET     | Get a list of all batteries                     | Yes                     | Admin          | 
+| /api/v1/batteries/addbattery     | POST    | Create a new battery                            | Yes                     | Admin          |
+| /api/v1/drivers                  | GET     | GET a list of drivers                           | Yes                     | Admin          |
+| /api/v1/drivers/addriver         | POST    | Create a new driver                             | Yes                     | Admin          |
+| /api/v1/stations                 | GET     | Get a list of stations                          | No                      | Admin          |
+| /api/v1/stations/addstation      | POST    | Create a new Station                            | Yes                     | Admin          |
+| /api/v1/stations/batteries       | GET     | Get all batteries of a specific stations        | Yes                     | Manager        |
+| /api/v1/swaps                    | GET     | Get a list of all battery exchange              | Yes                     | Admin, Manager |
+| /api/v1/swaps/addswap            | POST    | Create a new battery exchange                   | Yes                     | Manager        |
+| /api/v1/swaps/stopswap/<swap_id> | PUT     | Modify/Edit a specific swap to finish it        | Yes                     | Manager        |
+| /api/v1/swaps/totalswappedbattery| GET     | Get a list of total battery exchanged           | Yes                     | Manager, Admin |
+| /api/v1/swaps/<swap_id>          | GET     | Get information of one battery exchange         | Yes                     | Manager        |
+| /api/v1/movements/<serial_number>| POST    | Update the movement of an active battery        | Yes                     | Driver         |
+| /api/v1/login                    | POST    | Authentication                                  | No                      |                |
 
 ## Deployment
 
@@ -75,4 +72,4 @@ The Energize Swap Backend API is released under the [MIT License](https://openso
 
 This project was developed as part of the Energize Swap initiative to promote electric vehicle adoption and provide efficient battery swapping services. We would like to thank all the contributors and supporters who have made this project possible.
 
-For any inquiries or further information, please contact [Project Team Email].
+For any inquiries or further information, please contact [nshimyumukizachristian@gmail.com].
