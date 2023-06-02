@@ -97,7 +97,7 @@ function LoginPage() {
   };
 
   const onSubmit = (data) => {
-    fetch("http://localhost:5000/api/v1/login", {
+    fetch(`${BASE_URL}login`, {
       method: "POST",
       body: JSON.stringify({ ...data }),
       headers: { "Content-Type": "application/json" },
@@ -120,8 +120,6 @@ function LoginPage() {
         }
       })
   };
-
-  console.log("))))))))))", errors)
 
   return (
     <>
@@ -151,14 +149,12 @@ function LoginPage() {
                 // required
                 label="Email"
                 {...register("email", {
-                  required: "Email is required",
-                  maxLength: 20,
-                  minLength: 3,
+                  required: "this field is required",
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 2, message: "this field should be more that 3 characters" },
                 })}
               />
-              {errors.email?.type === "required" && (
-                <p role="alert">email is required</p>
-              )}
+              <p role="alert">{errors?.email?.message}</p>
             </div>
             <div className="input-block">
               <TextField
@@ -166,17 +162,16 @@ function LoginPage() {
                 variant="filled"
                 id="outlined-password-input"
                 label="Password"
-                // required
+                required
                 type="password"
                 autoComplete="current-password"
                 {...register("password", {
-                  maxLength: 20,
-                  minLength: 3,
+                  required: "this field is required",
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
-              {errors.password?.type === "required" && (
-                <p role="alert">password is required</p>
-              )}
+                 <p role="alert">{errors?.password?.message}</p>
             </div>
             <div>
               <Button
@@ -201,14 +196,12 @@ function LoginPage() {
                 variant="filled"
                 label="Email"
                 {...register("email", {
-                  required: true,
-                  maxLength: 20,
-                  minLength: 3,
+                  required: "this field is required",
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
-              {errors.email?.type === "required" && (
-                <p role="alert">email is required</p>
-              )}
+                <p role="alert">{errors?.email?.message}</p>
             </div>
             <div className="input-block">
               <TextField
@@ -220,13 +213,12 @@ function LoginPage() {
                 required
                 autoComplete="current-password"
                 {...register("password", {
-                  maxLength: 20,
-                  minLength: 3,
+                  required: "this field is required",
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
-              {errors.password?.type === "required" && (
-                <p role="alert">password is required</p>
-              )}
+                <p role="alert">{errors?.password?.message}</p>
             </div>
             <div>
               <Controller
@@ -255,10 +247,6 @@ function LoginPage() {
                   </TextField>
                 )}
               />
-
-              {errors.station?.type === "required" && (
-                <p role="alert">Station is required</p>
-              )}
             </div>
             <div>
               <Button

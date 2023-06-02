@@ -195,25 +195,29 @@ const DriversPage = (props) => {
                 label="Name *"
                 {...register("name", {
                   required: true,
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 5, message: "this field should be more that 5 characters" },
                 })}
               />
               <p role="alert">
-                {errors.name?.type === "required" && "name is required"}
+                {errors?.name?.message}
               </p>
 
               <TextField
                 style={StyledTextField}
                 variant="filled"
                 fullWidth
+                type="email"
                 label="Email *"
                 {...register("email", {
                   required: true,
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 5, message: "this field should be more that 5 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.email?.message}
+              </p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
@@ -222,70 +226,93 @@ const DriversPage = (props) => {
                 label="Phone *"
                 {...register("phone", {
                   required: true,
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 10, message: "this field should be less that 10 characters" },
+                  minLength: { value: 8, message: "this field should be more that 8 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.phone?.message}
+              </p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
                 fullWidth
                 label="Address"
-                {...register("Address", {
-                  maxLength: 20,
-                  minLength: 3,
+                {...register("address", {
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.address?.message}
+              </p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
                 fullWidth
                 label="License Number"
                 {...register("license_number", {
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 10, message: "this field should be less that 10 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.license_number?.message}
+              </p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
                 fullWidth
+                type="number"
                 label="License Expiry"
                 {...register("license_expiry", {
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 4, message: "this field should be less that 4 characters" },
+                  minLength: { value: 2, message: "this field should be more that 2 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.license_expiry?.message}
+              </p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
                 fullWidth
                 label="Motocycle Maker"
                 {...register("motocycle_make", {
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.motocycle_make?.message}
+              </p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
                 fullWidth
                 label="Motocycle Model"
                 {...register("motocycle_model", {
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.motocycle_model?.message}
+              </p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
                 fullWidth
+                type="number"
                 label="Motocycle Year"
                 {...register("motocycle_year", {
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 4, message: "this field should be less that 4 characters" },
+                  minLength: { value: 2, message: "this field should be more that 2 characters" },
                 })}
               />
+              <p role="alert">
+                {errors?.motocycle_year?.message}
+              </p>
               <div>
                 <Button
                   onClick={handleClose}

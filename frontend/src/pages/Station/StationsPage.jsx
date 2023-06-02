@@ -183,13 +183,12 @@ export default function StationsPage(props) {
                   label="Name"
                   required
                   {...register("name", {
-                    maxLength: 20,
-                    minLength: 3,
+                    required: "this field is required",
+                    maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                    minLength: { value: 4, message: "this field should be more that 4 characters" },
                   })}
                 />
-                {errors.name?.type === "required" && (
-                  <p role="alert">name is required</p>
-                )}
+                  <p role="alert">{errors?.name?.message}</p>
                 <Controller
                   name="location"
                   control={control}
@@ -212,9 +211,7 @@ export default function StationsPage(props) {
                     </TextField>
                   )}
                 />
-                {errors.location?.type === "required" && (
-                  <p role="alert">Location is required</p>
-                )}
+                  <p role="alert">{errors?.location?.message}</p>
                 <div>
                   <Button
                     onClick={handleClose}

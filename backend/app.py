@@ -33,5 +33,5 @@ def index():
 
 if __name__ == '__main__':
     # migrate()
-    # APP.run(debug=True, host='0.0.0.0', port=5000)
-    serve(APP, host='0.0.0.0', port=5000, threads=1)
+    APP.run(debug=True, host='0.0.0.0', port=5000)
+    # serve(APP, host='0.0.0.0', port=5000, threads=1)

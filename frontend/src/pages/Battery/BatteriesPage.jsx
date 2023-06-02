@@ -195,11 +195,11 @@ const BatteriesPage = (props) => {
                 label="Battery type *"
                 {...register("battery_type", {
                   required: true,
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 20, message: "this field should be less that 20 characters" },
+                  minLength: { value: 3, message: "this field should be more that 3 characters" },
                 })}
               />
-
+              <p>{errors?.battery_type?.message}</p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
@@ -208,9 +208,11 @@ const BatteriesPage = (props) => {
                 label="Manufacture Year *"
                 {...register("manufacture_date", {
                   required: true,
+                  maxLength: { value: 4, message: "this field should be less that 4 characters" },
+                  minLength: { value: 2, message: "this field should be more that 2 characters" },
                 })}
               />
-
+              <p>{errors?.manufacture_date?.message}</p>
               <TextField
                 style={StyledTextField}
                 variant="filled"
@@ -218,11 +220,11 @@ const BatteriesPage = (props) => {
                 label="Serial Number *"
                 {...register("serial_number", {
                   required: true,
-                  maxLength: 20,
-                  minLength: 3,
+                  maxLength: { value: 8, message: "this field should be less that 8 characters" },
+                  minLength: { value: 4, message: "this field should be more that 4 characters" },
                 })}
               />
-
+               <p>{errors?.serial_number?.message}</p>
               <Controller
                 name="station"
                 control={control}
