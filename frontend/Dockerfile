@@ -7,9 +7,9 @@ COPY ./yarn.lock ./
 
 RUN yarn install
 
-RUN yarn build
-
 COPY . .
+
+RUN yarn build
 
 EXPOSE 5173
 

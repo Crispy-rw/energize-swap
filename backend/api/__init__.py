@@ -10,7 +10,7 @@ def create_app(config_name):
         App init function
     '''
     app = Flask(__name__, instance_relative_config=True)
-    # Register blueprint
+
     # Register blueprints
     app.register_blueprint(app_views)
 

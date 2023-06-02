@@ -20,10 +20,10 @@ class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
     # SQLAlchemy Config
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
-    # SQLALCHEMY_DATABASE_URI = "mysql://root:root@batteryswap-db:3308/energize_swap_db"
+    # SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = "mysql://root:root@batteryswap-db:3308/energize_swap_db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = False
     SQLALCHEMY_POOL_TIMEOUT = 10
     SEND_FILE_MAX_AGE_DEFAULT = 0
     SQLALCHEMY_ENGINE_OPTIONS = {

@@ -1,10 +1,7 @@
-from flask import Flask, jsonify, make_response
-from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-# import config
+from flask import jsonify
+from waitress import serve
 from api import create_app
 from api.v1.models import db
-from api.v1.models.battery import Battery
 
 
 APP = create_app('production')
@@ -19,17 +16,22 @@ def migrate():
 @APP.teardown_appcontext
 def teardown_db(exception):
     """closes the storage on teardown"""
-    print(exception)
+    pass
 
 @APP.errorhandler(404)
 def not_found(error):
     """ Return an 'error: not found' JSON response """
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return jsonify({'error': 'Not found'}), 404
 
 @APP.errorhandler(400)
 def bad_request(error):
-    return make_response(jsonify({'error': error.description}), 400)
+    return jsonify({'error': error.description}), 400
+
+@APP.route("/")
+def index():
+   return jsonify({'message': 'welcome'}), 200
 
 if __name__ == '__main__':
-    migrate()
-    APP.run(debug=True, host='0.0.0.0', port=5000)
+    # migrate()
+    # APP.run(debug=True, host='0.0.0.0', port=5000)
+    serve(APP, host='0.0.0.0', port=5000, threads=1)
