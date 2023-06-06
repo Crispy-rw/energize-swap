@@ -18,11 +18,20 @@ class Validations():
         self.all = all_inputs
 
     def string(self, key, string):
-        '''Check if input is required'''
+        '''Check if input is a string'''
         if key in self.all and self.all[key] is not None:
-            if not re.match(r"[^[a-zA-Z0-9]+$", self.all[key]):
+            if not re.match(r"[^[a-zA-Z0-9]+$", str(self.all[key])):
                 return True
             return key.capitalize() + " should be string"
+        return True
+    
+    def number(self, key, number):
+        '''Check if input is a number'''
+        print("Dataaa ",self.all, key)
+        if key in self.all and self.all[key] is not None:
+            if re.match(r"^[+\-]?(\d+(\.\d*)?|\.\d+)?$", str(self.all[key])):
+                return True
+            return key + " should be a number"
         return True
 
     def minimum(self, key, minimum):
@@ -45,7 +54,7 @@ class Validations():
         return True
 
     def email(self, key, email):
-        '''Check required character size'''
+        '''Check input is an email'''
         if key in self.all and self.all[key] is not None:
             if not re.match(r"[^@\s]+@[^@\s]+\.[a-zA-Z]+$", self.all[key]):
                 return "Invalid email address"

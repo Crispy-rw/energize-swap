@@ -14,7 +14,7 @@ REGISTER_DRIVER = [
     {'license_expiry': [('minimum', 6), ('maximum', 30)]},
     {'motocycle_make': [('minimum', 6), ('maximum', 30)]},
     {'motocycle_model': [('minimum', 6), ('maximum', 30)]},
-    {'motocycle_year': [('minimum', 2), ('maximum', 4)]},
+    {'motocycle_year': [('minimum', 2), ('maximum', 4), ('number', True)]},
 ]
 # Login validation
 LOGIN_RULES = [
@@ -48,8 +48,8 @@ REGISTER_SWAP_RULE = [
 ]
 
 REGISTER_MOVEMENT_RULE = [
-    {'lat': [('required', True)]},
-    {'long': [('required', True)]},
+    {'lat': [('required', True), ('number', True)]},
+    {'long': [('required', True), ('number', True)]},
     {'battery_percentage': [('required', True), ('minimum', 1),
                ('maximum', 2)]}
 ]
@@ -68,10 +68,10 @@ def validate(inputs, all_rules):
                     pass
                 if execute is not True:
                     if rule_key in error_bag:
-                        error_bag[rule_key].append(execute)
+                        error_bag[rule_key] = execute
                     else:
                         error_bag[rule_key] = []
                         error_bag[rule_key].append(execute)
-    if len(error_bag) is not 0:
+    if len(error_bag) != 0:
         return error_bag
     return True
