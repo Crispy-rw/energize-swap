@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {userData() == null && <Route path="/login" element={<LoginPage />} />}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<MainLayout role={userData()?.role} />}>
           {routes}
         </Route>

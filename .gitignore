@@ -175,3 +175,4 @@ tags
 .ipython/
 .envs/*
 !.envs/.local/
+.db_data

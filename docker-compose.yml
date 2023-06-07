@@ -36,6 +36,8 @@ services:
     image: mysql:5.7.22
     container_name: database
     restart: unless-stopped
+    volumes:
+      - .db_data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: energize_swap_db
       MYSQL_USER: root
@@ -48,3 +50,6 @@ services:
 networks:
   net1:
     driver: bridge
+
+volumes:
+  .db_data:

@@ -85,16 +85,23 @@ Start the Docker containers using Docker Compose:
 docker-compose up
 ```
 
+#### 4. Setup the initial database:
+
+```sh
+# You can run this from a 2nd terminal. It will create a production database
+docker-compose exec backend flask db reset
+```
+
 This will start the backend, frontend, and database services defined in the `docker-compose.yml` file.
 
-### 4. Access the Application
+### 5. Access the Application
 
 Once the containers are up and running, you can access the application in your web browser:
 
 - Backend API: `http://localhost:5000/`
 - Frontend: `http://localhost:5173/`
 
-### 5. Stop the Containers
+### 6. Stop the Containers
 
 To stop the Docker containers, press `Ctrl + C` in the terminal where the containers are running.
 

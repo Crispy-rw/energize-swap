@@ -40,7 +40,6 @@ const generateRoute = (routes) => {
 
 const ProtectedRoute = ({ role, redirectPath = "/unauthorized", children }) => {
   const userInfo = userData()
-  console.log("========", userInfo)
   if (userInfo == null || role !== userInfo?.role) {
     return <Navigate to={redirectPath} replace />;
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 
 import "./login.css";
 import { BASE_URL } from "../../configs";
+import userData from '../../configs/helpers'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,6 +58,12 @@ const buttonStyle = {
 function LoginPage() {
   const [value, setTab] = React.useState(0);
   const [stations, setStations] = React.useState([]);
+
+  useEffect(()=>{
+    if(userData() != null){
+      window.location.replace("/");
+    }
+  },[])
 
   const {
     register,
