@@ -101,7 +101,45 @@ Once the containers are up and running, you can access the application in your w
 - Backend API: `http://localhost:5000/`
 - Frontend: `http://localhost:5173/`
 
-### 6. Stop the Containers
+### 6. Explore the Website
+
+Certainly! Here's a step-by-step guide on how to navigate the website:
+
+1. **Login as an Admin**: Visit the login page and use the following credentials to log in as an admin:
+   - Email: admin@example.com
+   - Password: password1
+
+2. **Create Drivers**: As an admin, navigate to the Drivers section and create one or more drivers by providing their information.
+
+3. **Create Swap Stations**: Still logged in as an admin, go to the Swap Stations section and create one or more swap stations by entering the necessary details.
+
+4. **Create Batteries**: For each swap station, create batteries by specifying the station and providing relevant information for each battery.
+
+5. **Logout**: Once you have created drivers, swap stations, and batteries, log out from the admin account.
+
+6. **Login as a Manager**: Visit the login page again, but this time use the following credentials to log in as a manager:
+   - Email: manager@example.com
+   - Password: password2
+
+7. **View Available Batteries**: As a manager, navigate to the batteries section to view the available batteries at your station.
+
+8. **View Active Swaps**: In the Active Swaps section, you can see the ongoing swaps happening at your station.
+
+9. **Create a New Battery Swap**: To initiate a new battery swap, go to the Battery Swap section and follow the steps to create a new swap by selecting the driver and the desired battery.
+
+10. **Update Asset Movement**: When a battery swap is active, the driver should be able to update the movements of the asset. This can be done by making a PUT request to the endpoint `http://127.0.0.1:5000/api/v1/movements/<battery_serial_number>`. The driver should include the updated coordinates in the request payload, using the coordinates from the `coordinates.ini` file as a sample. This allows for accurate tracking and recording of the asset's movements throughout the swap process.
+
+11. **Manage Active Swaps**: Any station manager can view the active swaps and, if the battery is deposited at their station for charging, stop the swap process.
+
+12. **View Swap History**: 
+
+   - **Manager**: In the Swap History section, station managers will be able to view the history of battery swaps that were picked up from their stations. This will provide them with a record of the swaps conducted at their station.
+
+   - **Admin**: Administrators will have access to a comprehensive Swap History section where they can view the complete history of all battery swaps across all stations. This allows administrators to track and analyze the overall swap activities and monitor the performance of the entire system.
+
+   The Swap History section will provide details such as swap ID, battery information, driver information, pickup station, deposit station (if applicable), start time, end time, and any other relevant information associated with each swap transaction such as distance covered.
+
+### 7. Stop the Containers
 
 To stop the Docker containers, press `Ctrl + C` in the terminal where the containers are running.
 

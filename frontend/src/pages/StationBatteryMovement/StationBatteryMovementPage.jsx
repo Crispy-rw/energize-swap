@@ -101,8 +101,8 @@ const StationBatteryMovementPage = () => {
     setValue,
   } = useForm({
     defaultValues: {
-      battery_id: "",
-      driver_id: "",
+      battery: "",
+      driver: "",
     },
   });
 

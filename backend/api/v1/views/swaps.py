@@ -14,7 +14,6 @@ def create_battery_swap():
     '''
     try:
         sent_data = request.get_json()
-
         valid = validate(sent_data, REGISTER_SWAP_RULE)
 
         if valid is not True:
@@ -26,7 +25,7 @@ def create_battery_swap():
         user_info = token_info(request.headers.get("Authorization"))
         check_battery = (
             Swap.query
-            .filter(Swap.battery_id == sent_data["battery"])
+            .filter(Swap.battery_id == sent_data.get("battery"))
             .filter(Swap.end_time == None)
             .first()
         )
@@ -38,7 +37,7 @@ def create_battery_swap():
 
         check_driver = (
             Swap.query
-            .filter(Swap.driver_id == sent_data.get("driver_id"))
+            .filter(Swap.driver_id == sent_data.get("driver"))
             .filter(Swap.end_time == None)
             .first()
         )
