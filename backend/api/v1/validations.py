@@ -27,7 +27,6 @@ class Validations():
     
     def number(self, key, number):
         '''Check if input is a number'''
-        print("Dataaa ",self.all, key)
         if key in self.all and self.all[key] is not None:
             if re.match(r"^[+\-]?(\d+(\.\d*)?|\.\d+)?$", str(self.all[key])):
                 return True

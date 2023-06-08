@@ -126,7 +126,8 @@ const StationBatteryMovementPage = () => {
   }, []);
 
   const stopSwap = (id) => {
-    swapFinished(id)
+    if (confirm("Are you sure you want to proceed with this action?") == true) {
+      swapFinished(id)
       .unwrap()
       .then((res) => {
         refetch();
@@ -136,6 +137,7 @@ const StationBatteryMovementPage = () => {
           position: toast.POSITION.TOP_RIGHT
         })
       });
+    }
   };
 
   return (

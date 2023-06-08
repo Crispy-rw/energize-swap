@@ -27,7 +27,9 @@ class Swap(db.Model):
     battery_movements = db.relationship("BatteryMovement", back_populates="swaps")
     drivers = db.relationship("Driver", back_populates="swaps")
     batteries = db.relationship("Battery", back_populates="swaps")
-    # stations = db.relationship('Station', back_populates='swaps')
+    
+    payments = db.relationship('Payment', back_populates='swap')
+
     pickup_station = db.relationship(
         "Station", foreign_keys=[pickup_station_id], backref="pickups"
     )

@@ -22,6 +22,7 @@ class Driver(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     swaps = db.relationship('Swap', back_populates='drivers')
+    payments = db.relationship('Payment', back_populates='driver')
 
 
 

@@ -18,7 +18,7 @@ const baseQuery = fetchBaseQuery({
 export const backendApis = createApi({
     reducerPath: "backendApis",
     baseQuery: baseQuery,
-    tagTypes: ["Station", "Battery", "Driver", "Swap", "Movements" ],
+    tagTypes: ["Station", "Battery", "Driver", "Swap", "Movements", "Payment"],
     endpoints: (builder) => ({
         getAllDrivers: builder.query({
             query: () => "drivers",
@@ -89,6 +89,14 @@ export const backendApis = createApi({
                 method: 'PUT'
             }),
             invalidatesTags: ["Swap"]
+        }),
+        getStationPayments: builder.query({
+            query: (station_id) => ({ url: `payments/${station_id}` }),
+            providesTags:["Payment"] 
+        }),
+        getAllPayments: builder.query({
+            query: () => `payments`,
+            providesTags:["Payment"]
         })
     })
 })
@@ -107,7 +115,9 @@ export const {
     useGetStationBatteriesQuery,
     useCreateSwapMutation,
     useGetOngoingSwapsQuery,
-    useSwapFinishedMutation
+    useSwapFinishedMutation,
+    useGetStationPaymentsQuery,
+    useGetAllPaymentsQuery,
 } = backendApis
 
 export default backendApis.endpoints

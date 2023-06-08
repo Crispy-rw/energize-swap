@@ -10,7 +10,10 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import BatterySaverIcon from '@mui/icons-material/BatterySaver';
 import HistoryIcon from '@mui/icons-material/History';
 import EvStationIcon from '@mui/icons-material/EvStation';
+import PaymentIcon from '@mui/icons-material/Payment';
 import SportsMotorsportsIcon from '@mui/icons-material/SportsMotorsports';
+import { StationPaymentPage } from "../pages/StationPayment/StationPaymentPage";
+import { PaymentPage } from "../pages/Payment/PaymentPage";
 
 const appRoutes = [
   {
@@ -64,6 +67,16 @@ const appRoutes = [
     },
   },
   {
+    role: "admin",
+    path: "/admin/payments",
+    element: <PaymentPage />,
+    state: "batterymovement",
+    sidebarProps: {
+      displayText: "Payments",
+      icon: <PaymentIcon />,
+    },
+  },
+  {
     index: true,
     role: "manager",
     path: "/manager/swaps/ongoing",
@@ -92,6 +105,16 @@ const appRoutes = [
     sidebarProps: {
       displayText: "History",
       icon: <HistoryIcon />,
+    },
+  },
+  {
+    role: "manager",
+    path: "/manager/payments",
+    element: <StationPaymentPage />,
+    state: "managerpayment",
+    sidebarProps: {
+      displayText: "payments",
+      icon: <PaymentIcon />,
     },
   },
 ];

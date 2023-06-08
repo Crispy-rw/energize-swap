@@ -4,6 +4,7 @@ from api.v1.views import app_views
 from api.v1.helpers import measurePath, token_info
 from api.v1.inputs.inputs import REGISTER_SWAP_RULE, validate
 from api.v1 import auth
+from api.v1.models.payment import Payment
 
 
 @app_views.route("swaps/addswap", methods=["POST"], strict_slashes=False)
@@ -53,6 +54,11 @@ def create_battery_swap():
                 "driver_id": sent_data["driver"],
                 "station_id": user_info["station_id"],
             })
+        
+        Payment.create_payment(driver_id=sent_data.get("driver"),
+                                paid_amount=1000, 
+                                swap_id= swap.id,
+                                total_amount=1000)
 
         return jsonify({
                 "status": "Ok",
@@ -60,9 +66,9 @@ def create_battery_swap():
                 "data": swap.serialize_one,
             }), 201
     
-    except Exception:
+    except Exception as e:
         return jsonify({"status": "Error",
-                        "message": "Error creating a new battery swap",
+                        "message": "Error creating a new battery swap {}".format(e),
                         }),400
 
 
@@ -99,6 +105,8 @@ def stop_battery_swap(swap_id):
         user_info = token_info(request.headers.get("Authorization"))
         if user_info["station_id"]:
             swap = Swap.stop_swap(swap_id, user_info["station_id"])
+
+            Payment.update_refund_amount(swap.id)
 
             if swap.end_time is not None:
                 return jsonify({
