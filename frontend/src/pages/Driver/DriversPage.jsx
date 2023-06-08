@@ -102,7 +102,6 @@ const DriversPage = (props) => {
         setOpen(false);
       })
       .catch((err) => {
-        console.log(err)
         toast.error(err?.data?.message, {
           position: toast.POSITION.TOP_RIGHT
         })

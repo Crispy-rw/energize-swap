@@ -114,7 +114,6 @@ const StationBatteryMovementPage = () => {
         setOpen(false);
       })
       .catch((err) => {
-        console.log("Err creating a new swap", err);
         toast.error(err?.data?.message, {
           position: toast.POSITION.TOP_RIGHT
         })

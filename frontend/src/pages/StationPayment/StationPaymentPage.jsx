@@ -27,7 +27,6 @@ export const StationPaymentPage = () => {
     refetch();
   }, []);
 
-  console.log("====>>>>>>>", data, userInfo?.station_id);
   return (
     <>
       <Stack direction="row">

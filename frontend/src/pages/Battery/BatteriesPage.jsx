@@ -115,7 +115,6 @@ const BatteriesPage = (props) => {
         toast.error(err?.data?.message, {
           position: toast.POSITION.TOP_RIGHT
         })
-        console.log("Erroe creatng a new Battery", err);
       });
   };
 

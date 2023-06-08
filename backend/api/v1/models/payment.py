@@ -53,12 +53,6 @@ class Payment(db.Model):
         """
         json_payment = {
             'id': self.id,
-            # 'swap_id': self.swap_id,
-            # 'driver': {
-            #     'id': self.driver.id,
-            #     'name': self.driver.name,
-            #     # Include other relevant driver attributes
-            # },
             'swap': self.swap.serialize_one,
             'driver': self.driver.serialize_one,
             'total_amount': self.total_amount,

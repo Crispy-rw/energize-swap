@@ -139,6 +139,24 @@ Certainly! Here's a step-by-step guide on how to navigate the website:
 
    The Swap History section will provide details such as swap ID, battery information, driver information, pickup station, deposit station (if applicable), start time, end time, and any other relevant information associated with each swap transaction such as distance covered.
 
+13. **Payment Summary**
+
+   The payment system in the battery swap application follows a straightforward process to ensure fair transactions between drivers and stations. Here is a summary of how payments are handled:
+
+   - **Driver Payment**: Each driver is required to pay a fixed amount of 1000 currency units for every battery exchange. This payment ensures access to a fully charged battery for their vehicle.
+
+   - **Refund Calculation**: When a driver returns a battery, the system calculates the percentage of battery power that was actually used during the swap. The remaining unused power percentage is then refunded to the driver. For example, if a driver returns a battery with 80% power remaining, they will receive a refund proportional to the unused 80% of battery power.
+
+   - **Manager Payment**: The station manager is paid when a driver picks up a battery from their station. This payment incentivizes station managers to ensure an adequate supply of fully charged batteries for drivers.
+
+   - **Refunds at Any Station**: Drivers have the flexibility to receive their refund at any station where they deposit the battery. This allows drivers to conveniently return the battery to the nearest station and receive their refund in a hassle-free manner.
+
+   - **Manager Payment Visibility**: Station managers have access to view payment records for batteries that were picked up from their specific station. This enables managers to monitor the financial activity associated with their station and ensure accurate record-keeping.
+
+   - **Admin Payment Visibility**: Administrators have access to view payment records from all stations across the system. This comprehensive view allows administrators to analyze payment data, track financial transactions, and generate reports as needed.
+
+   By implementing this payment system, the application ensures that drivers receive fair refunds for unused battery power and that station managers are appropriately compensated for providing batteries to drivers.
+
 ### 7. Stop the Containers
 
 To stop the Docker containers, press `Ctrl + C` in the terminal where the containers are running.
