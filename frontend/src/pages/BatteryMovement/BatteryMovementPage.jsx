@@ -46,7 +46,7 @@ const BatteryMovementPage = () => {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.battery?.name}
+                      {row?.battery?.serial_number}
                     </TableCell>
                     <TableCell align="right">{row.driver?.name}</TableCell>
                     <TableCell align="right">
